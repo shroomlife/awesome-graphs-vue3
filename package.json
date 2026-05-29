@@ -69,7 +69,9 @@
     "format:check": "prettier --check .",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "example": "vite --config vite.example.config.ts",
+    "example:build": "vite build --config vite.example.config.ts"
   },
   "peerDependencies": {
     "vue": "^3.4.0"

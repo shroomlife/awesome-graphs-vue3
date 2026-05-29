@@ -83,8 +83,24 @@ createApp(App).use(AwesomeGraphs, { theme: 'light' }).mount('#app')
 | **PieChart** | pie & donut, slice labels (%/value/name), padding, rounded corners |
 
 Plus the headless `CartesianChart` (typed slot props) and primitives (`Axis`, `CartesianGrid`,
-`ChartLegend`, `ChartTooltip`) to build entirely custom charts. See the
-[documentation](https://shroomlife.github.io/awesome-graphs-vue3/) for live examples.
+`ChartLegend`, `ChartTooltip`) to build entirely custom charts.
+
+## Examples
+
+There are live, interactive examples in three places:
+
+- **📖 Documentation** — every chart page and the homepage embed runnable demos:
+  <https://shroomlife.github.io/awesome-graphs-vue3/>
+- **🧪 Standalone example app** — a showcase of all chart types (line, area, bar, scatter,
+  bubble, pie, donut), with a dark-mode toggle and live data shuffling, in
+  [`examples/`](./examples). Run it straight from source (no build step):
+
+  ```bash
+  pnpm install
+  pnpm example        # → http://localhost:5174
+  ```
+
+- **📚 Docs dev server** — `pnpm docs:dev` runs the full documentation locally.
 
 ## Nuxt
 
