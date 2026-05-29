@@ -1,0 +1,42 @@
+:root {
+  --vp-c-brand-1: #6366f1;
+  --vp-c-brand-2: #4f46e5;
+  --vp-c-brand-3: #4338ca;
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #6366f1 30%, #06b6d4);
+  --vp-home-hero-image-background-image: linear-gradient(120deg, #6366f1 30%, #06b6d4 70%);
+  --vp-home-hero-image-filter: blur(48px);
+}
+
+.ag-demo {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 14px;
+  background: var(--vp-c-bg-soft);
+}
+
+.ag-demo__title {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ag-demo__body {
+  min-height: 200px;
+}
+
+/* A small responsive grid for showcasing multiple demos side by side. */
+.ag-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.ag-demo-grid .ag-demo {
+  margin: 0;
+}
