@@ -6,6 +6,7 @@ import CartesianChart from './components/CartesianChart.vue'
 import LineChart from './components/LineChart.vue'
 import AreaChart from './components/AreaChart.vue'
 import BarChart from './components/BarChart.vue'
+import ScatterChart from './components/ScatterChart.vue'
 import PieChart from './components/PieChart.vue'
 import Axis from './components/Axis.vue'
 import CartesianGrid from './components/CartesianGrid.vue'
@@ -17,6 +18,7 @@ const components = {
   LineChart,
   AreaChart,
   BarChart,
+  ScatterChart,
   PieChart,
   Axis,
   CartesianGrid,

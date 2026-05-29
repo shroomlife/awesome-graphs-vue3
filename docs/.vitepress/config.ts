@@ -43,6 +43,7 @@ export default defineConfig({
             { text: 'Line', link: '/charts/line' },
             { text: 'Area', link: '/charts/area' },
             { text: 'Bar', link: '/charts/bar' },
+            { text: 'Scatter & Bubble', link: '/charts/scatter' },
             { text: 'Pie & Donut', link: '/charts/pie' },
           ],
         },

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { LineChart, AreaChart, BarChart, PieChart } from '../src'
+import { LineChart, AreaChart, BarChart, ScatterChart, PieChart } from '../src'
 
 const data = [
   { month: 'Jan', sales: 30, profit: 10 },
@@ -71,6 +71,34 @@ describe('BarChart', () => {
       props: { data, x: 'month', series: ['sales', 'profit'], stacked: true, ...common },
     })
     expect(wrapper.findAll('rect.ag-bar')).toHaveLength(6)
+  })
+})
+
+describe('ScatterChart', () => {
+  const points = [
+    { x: 1, y: 4, weight: 10 },
+    { x: 2, y: 7, weight: 30 },
+    { x: 3, y: 3, weight: 20 },
+    { x: 4, y: 9, weight: 50 },
+  ]
+
+  it('renders one point per row', () => {
+    const wrapper = mount(ScatterChart, {
+      props: { data: points, x: 'x', series: ['y'], ...common },
+    })
+    expect(wrapper.findAll('circle.ag-point').length).toBeGreaterThanOrEqual(4)
+  })
+
+  it('scales bubble radius from a size key', () => {
+    const wrapper = mount(ScatterChart, {
+      props: { data: points, x: 'x', series: ['y'], size: 'weight', sizeRange: [5, 25], ...common },
+    })
+    const radii = wrapper
+      .findAll('circle.ag-point')
+      .map((c) => Number(c.attributes('r')))
+      .filter((r) => !Number.isNaN(r))
+    // The largest weight (50) should map to the max radius (25).
+    expect(Math.max(...radii)).toBeCloseTo(25, 1)
   })
 })
 

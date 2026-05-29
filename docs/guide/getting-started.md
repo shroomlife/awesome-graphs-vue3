@@ -120,7 +120,7 @@ const data = [
 ## Next steps
 
 - Explore each chart: [Line](/charts/line), [Area](/charts/area), [Bar](/charts/bar),
-  [Pie & Donut](/charts/pie)
+  [Scatter & Bubble](/charts/scatter), [Pie & Donut](/charts/pie)
 - Make it yours with [Theming](/guide/theming)
 - Build custom charts with the [headless core](/guide/headless)
 - Use it in [Nuxt](/guide/nuxt)

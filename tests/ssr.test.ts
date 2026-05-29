@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { createSSRApp, type Component } from 'vue'
 import { renderToString } from 'vue/server-renderer'
-import { LineChart, AreaChart, BarChart, PieChart } from '../src'
+import { LineChart, AreaChart, BarChart, ScatterChart, PieChart } from '../src'
 
 /**
  * These tests render the components on the "server" (no DOM) to guarantee
@@ -32,6 +32,20 @@ describe('SSR / Nuxt compatibility', () => {
     const bar = await ssr(BarChart, { data, x: 'month', series: ['a', 'b'], width: 480, height: 300 })
     expect(area).toContain('ag-area')
     expect(bar).toContain('ag-bar')
+  })
+
+  it('renders a ScatterChart to a string', async () => {
+    const html = await ssr(ScatterChart, {
+      data: [
+        { x: 1, y: 4 },
+        { x: 2, y: 7 },
+      ],
+      x: 'x',
+      series: ['y'],
+      width: 480,
+      height: 300,
+    })
+    expect(html).toContain('ag-point')
   })
 
   it('renders a PieChart to a string', async () => {

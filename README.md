@@ -79,6 +79,7 @@ createApp(App).use(AwesomeGraphs, { theme: 'light' }).mount('#app')
 | **LineChart** | curves, point markers, dashed strokes, multi-series, time/linear/category x |
 | **AreaChart** | gradient fills, stacking, top outline |
 | **BarChart** | grouped & stacked, rounded corners, grow-from-baseline animation |
+| **ScatterChart** | scatter & bubble (area-proportional sizing), multi-series |
 | **PieChart** | pie & donut, slice labels (%/value/name), padding, rounded corners |
 
 Plus the headless `CartesianChart` (typed slot props) and primitives (`Axis`, `CartesianGrid`,
