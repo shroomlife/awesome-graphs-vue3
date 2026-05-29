@@ -1,0 +1,109 @@
+{
+  "name": "awesome-graphs-vue3",
+  "version": "0.1.0",
+  "description": "A highly customizable, SVG-first chart library for Vue 3 that produces beautiful, crisp, accessible charts.",
+  "type": "module",
+  "license": "MIT",
+  "author": "shroomlife <robin@shroomlife.de>",
+  "homepage": "https://shroomlife.github.io/awesome-graphs-vue3/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shroomlife/awesome-graphs-vue3.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shroomlife/awesome-graphs-vue3/issues"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "chart",
+    "charts",
+    "graph",
+    "graphs",
+    "svg",
+    "dataviz",
+    "data-visualization",
+    "line-chart",
+    "bar-chart",
+    "area-chart",
+    "pie-chart",
+    "donut-chart",
+    "customizable",
+    "typescript"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/awesome-graphs-vue3.cjs",
+  "module": "./dist/awesome-graphs-vue3.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/awesome-graphs-vue3.js",
+      "require": "./dist/awesome-graphs-vue3.cjs"
+    },
+    "./style.css": "./dist/style.css",
+    "./styles": "./dist/style.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit -p tsconfig.build.json && vite build",
+    "build:lib": "vite build",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.build.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "@parcel/watcher"
+    ]
+  },
+  "dependencies": {
+    "d3-array": "^3.2.4",
+    "d3-format": "^3.1.0",
+    "d3-interpolate": "^3.0.1",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
+    "d3-time": "^3.1.0",
+    "d3-time-format": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/d3-array": "^3.2.1",
+    "@types/d3-format": "^3.0.4",
+    "@types/d3-interpolate": "^3.0.4",
+    "@types/d3-scale": "^4.0.8",
+    "@types/d3-shape": "^3.1.6",
+    "@types/d3-time": "^3.0.3",
+    "@types/d3-time-format": "^4.0.3",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/test-utils": "^2.4.6",
+    "@vitest/coverage-v8": "^2.1.8",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "vite-plugin-dts": "^4.4.0",
+    "vitepress": "^1.5.0",
+    "vitest": "^2.1.8",
+    "vue": "^3.5.13",
+    "vue-tsc": "^2.2.0"
+  }
+}
