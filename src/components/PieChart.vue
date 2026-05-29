@@ -44,6 +44,8 @@ interface PieChartProps {
   tooltip?: boolean | TooltipConfig
   animate?: boolean
   ariaLabel?: string
+  /** Render a visually-hidden data table for screen readers (default true). */
+  accessibleTable?: boolean
 }
 
 const props = withDefaults(defineProps<PieChartProps>(), {
@@ -66,6 +68,7 @@ const props = withDefaults(defineProps<PieChartProps>(), {
   tooltip: true,
   animate: true,
   ariaLabel: undefined,
+  accessibleTable: true,
 })
 
 const resolvedTheme = useTheme(() => props.theme)
@@ -130,6 +133,7 @@ const legendItems = computed<SeriesMeta[]>(() =>
 
 const visibleItems = computed(() => allItems.value.filter((it) => !hiddenKeys.value.has(it.key)))
 const total = computed(() => visibleItems.value.reduce((sum, it) => sum + Math.max(0, it.value), 0))
+const allTotal = computed(() => allItems.value.reduce((sum, it) => sum + Math.max(0, it.value), 0))
 
 const cx = computed(() => width.value / 2)
 const cy = computed(() => height.value / 2)
@@ -345,5 +349,24 @@ const ariaLabel = computed(
       :interactive="legendCfg.interactive"
       @toggle="toggle"
     />
+
+    <!-- Visually-hidden data table: the accessible equivalent of the chart. -->
+    <table v-if="accessibleTable" class="ag-sr-only">
+      <caption>{{ ariaLabel }}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{{ label }}</th>
+          <th scope="col">Value</th>
+          <th scope="col">Share</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="it in allItems" :key="it.key">
+          <th scope="row">{{ it.name }}</th>
+          <td>{{ valueFormatter(it.value, it.index) }}</td>
+          <td>{{ allTotal > 0 ? Math.round((it.value / allTotal) * 1000) / 10 : 0 }}%</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>

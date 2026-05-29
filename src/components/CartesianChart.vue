@@ -71,6 +71,8 @@ interface Props {
   tooltip?: boolean | TooltipConfig
   animate?: boolean
   ariaLabel?: string
+  /** Render a visually-hidden data table for screen readers. */
+  accessibleTable?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -93,6 +95,7 @@ const props = withDefaults(defineProps<Props>(), {
   tooltip: true,
   animate: true,
   ariaLabel: undefined,
+  accessibleTable: true,
 })
 
 defineSlots<{ default(props: CartesianSlotProps): unknown }>()
@@ -302,11 +305,18 @@ const baselineY = computed(() => {
   return Math.max(bounds.value.top, Math.min(bounds.value.bottom, y))
 })
 
+// Responsive tick budgets derived from the available plot size, so labels
+// thin out gracefully on small screens instead of overlapping.
+const xMaxTicks = computed(() => Math.max(2, Math.floor(bounds.value.width / 64)))
+const yMaxTicks = computed(() => Math.max(2, Math.floor(bounds.value.height / 36)))
+const xTickCount = computed(() => xAxis.value.tickCount ?? xMaxTicks.value)
+const yTickCount = computed(() => yAxis.value.tickCount ?? yMaxTicks.value)
+
 const xGridLines = computed(() =>
-  generateTicks(xScaleLike.value, xAxis.value.tickCount).map((t) => t.offset),
+  generateTicks(xScaleLike.value, xTickCount.value).map((t) => t.offset),
 )
 const yGridLines = computed(() =>
-  generateTicks(yScaleLike.value, yAxis.value.tickCount).map((t) => t.offset),
+  generateTicks(yScaleLike.value, yTickCount.value).map((t) => t.offset),
 )
 
 // --- formatters ----------------------------------------------------------
@@ -416,6 +426,13 @@ const ariaLabel = computed(
     props.ariaLabel ??
     `Chart with ${visibleSeriesMeta.value.length} series and ${props.data.length} data points`,
 )
+
+/** Format a raw cell for the accessible data table. */
+function cellValue(raw: unknown, index: number): string {
+  const n = toNumber(raw)
+  if (Number.isFinite(n)) return yFormatter.value(n, index)
+  return raw == null ? '' : String(raw)
+}
 </script>
 
 <template>
@@ -478,7 +495,8 @@ const ariaLabel = computed(
           :scale="yScaleLike"
           :bounds="bounds"
           :formatter="yFormatter"
-          :tick-count="yAxis.tickCount"
+          :tick-count="yTickCount"
+          :max-ticks="yMaxTicks"
           :tick-values="yAxis.tickValues"
           :show-line="yAxis.line"
           :show-ticks="yAxis.ticks"
@@ -491,7 +509,8 @@ const ariaLabel = computed(
           :scale="xScaleLike"
           :bounds="bounds"
           :formatter="xFormatter"
-          :tick-count="xAxis.tickCount"
+          :tick-count="xTickCount"
+          :max-ticks="xMaxTicks"
           :tick-values="xAxis.tickValues"
           :show-line="xAxis.line"
           :show-ticks="xAxis.ticks"
@@ -533,5 +552,22 @@ const ariaLabel = computed(
       :interactive="legendCfg.interactive"
       @toggle="toggleSeries"
     />
+
+    <!-- Visually-hidden data table: the accessible equivalent of the chart. -->
+    <table v-if="accessibleTable" class="ag-sr-only">
+      <caption>{{ ariaLabel }}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{{ x }}</th>
+          <th v-for="s in allSeriesMeta" :key="s.key" scope="col">{{ s.name }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(row, i) in data" :key="i">
+          <th scope="row">{{ xFormatter(xValues[i], i) }}</th>
+          <td v-for="s in allSeriesMeta" :key="s.key">{{ cellValue(row[s.key], i) }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>

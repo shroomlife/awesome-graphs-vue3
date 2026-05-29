@@ -33,6 +33,7 @@ const props = withDefaults(defineProps<AreaChartProps>(), {
   tooltip: true,
   grid: true,
   animate: true,
+  accessibleTable: true,
 })
 
 const base = computed(() =>
@@ -54,6 +55,7 @@ const base = computed(() =>
     tooltip: props.tooltip,
     animate: props.animate,
     ariaLabel: props.ariaLabel,
+    accessibleTable: props.accessibleTable,
   }),
 )
 

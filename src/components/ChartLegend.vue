@@ -27,29 +27,28 @@ function onSelect(item: SeriesMeta) {
 </script>
 
 <template>
-  <div :class="classes" role="list">
-    <component
-      :is="interactive ? 'button' : 'span'"
-      v-for="item in items"
-      :key="item.key"
-      role="listitem"
-      :type="interactive ? 'button' : undefined"
-      :class="[
-        'ag-legend__item',
-        {
-          'ag-legend__item--interactive': interactive,
-          'ag-legend__item--hidden': item.hidden,
-        },
-      ]"
-      :aria-pressed="interactive ? String(!item.hidden) : undefined"
-      @click="onSelect(item)"
-    >
-      <span
-        class="ag-legend__symbol"
-        :class="`ag-legend__symbol--${symbol}`"
-        :style="{ background: item.color }"
-      />
-      <span class="ag-legend__label">{{ item.name }}</span>
-    </component>
-  </div>
+  <ul :class="classes">
+    <li v-for="item in items" :key="item.key" class="ag-legend__li">
+      <component
+        :is="interactive ? 'button' : 'span'"
+        :type="interactive ? 'button' : undefined"
+        :class="[
+          'ag-legend__item',
+          {
+            'ag-legend__item--interactive': interactive,
+            'ag-legend__item--hidden': item.hidden,
+          },
+        ]"
+        :aria-pressed="interactive ? String(!item.hidden) : undefined"
+        @click="onSelect(item)"
+      >
+        <span
+          class="ag-legend__symbol"
+          :class="`ag-legend__symbol--${symbol}`"
+          :style="{ background: item.color }"
+        />
+        <span class="ag-legend__label">{{ item.name }}</span>
+      </component>
+    </li>
+  </ul>
 </template>

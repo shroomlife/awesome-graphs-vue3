@@ -15,12 +15,14 @@ const props = withDefaults(
     formatter?: ValueFormatter
     tickCount?: number
     tickValues?: Primitive[]
+    /** Cap the number of rendered ticks; extras are thinned out evenly. */
+    maxTicks?: number
     showLine?: boolean
     showTicks?: boolean
     tickSize?: number
     title?: string
   }>(),
-  { showLine: true, showTicks: true, tickSize: 6, formatter: undefined, title: '' },
+  { showLine: true, showTicks: true, tickSize: 6, formatter: undefined, title: '', maxTicks: undefined },
 )
 
 const horizontal = computed(() => props.orientation === 'bottom' || props.orientation === 'top')
@@ -29,9 +31,19 @@ const format = computed<ValueFormatter>(
   () => props.formatter ?? (horizontal.value ? identityFormat : defaultNumberFormat),
 )
 
-const ticks = computed<Tick[]>(() =>
-  generateTicks(props.scale, props.tickCount, props.tickValues),
-)
+const ticks = computed<Tick[]>(() => {
+  const generated = generateTicks(props.scale, props.tickCount, props.tickValues)
+  // Responsive thinning: drop ticks evenly when there are more than fit, but
+  // never thin an explicit tickValues list (that's the author's intent).
+  if (props.tickValues || !props.maxTicks || generated.length <= props.maxTicks) {
+    return generated
+  }
+  const step = Math.ceil(generated.length / props.maxTicks)
+  const out = generated.filter((_, i) => i % step === 0)
+  const last = generated[generated.length - 1]
+  if (out[out.length - 1]?.offset !== last.offset) out.push(last)
+  return out
+})
 
 const domainLine = computed(() => {
   const b = props.bounds

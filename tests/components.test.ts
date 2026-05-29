@@ -136,3 +136,43 @@ describe('theming', () => {
     expect(root.attributes('style')).toContain('--ag-foreground')
   })
 })
+
+describe('accessibility & responsiveness', () => {
+  it('renders a visually-hidden data table mirroring the data', () => {
+    const wrapper = mount(LineChart, {
+      props: { data, x: 'month', series: ['sales', 'profit'], ...common },
+    })
+    const table = wrapper.find('table.ag-sr-only')
+    expect(table.exists()).toBe(true)
+    expect(table.find('caption').exists()).toBe(true)
+    // x column + two series
+    expect(table.findAll('thead th')).toHaveLength(3)
+    // one row per data point
+    expect(table.findAll('tbody tr')).toHaveLength(data.length)
+  })
+
+  it('can disable the accessible table', () => {
+    const wrapper = mount(LineChart, {
+      props: { data, x: 'month', series: ['sales'], accessibleTable: false, ...common },
+    })
+    expect(wrapper.find('table.ag-sr-only').exists()).toBe(false)
+  })
+
+  it('renders a semantic <ul> legend', () => {
+    const wrapper = mount(LineChart, {
+      props: { data, x: 'month', series: ['sales', 'profit'], ...common },
+    })
+    expect(wrapper.find('ul.ag-legend').exists()).toBe(true)
+    expect(wrapper.findAll('ul.ag-legend li').length).toBe(2)
+  })
+
+  it('thins x-axis labels on narrow charts', () => {
+    const many = Array.from({ length: 30 }, (_, i) => ({ d: `D${i}`, v: i }))
+    const wrapper = mount(LineChart, {
+      props: { data: many, x: 'd', series: ['v'], width: 240, height: 200, animate: false },
+    })
+    const xLabels = wrapper.findAll('.ag-axis--bottom text.ag-axis__label')
+    expect(xLabels.length).toBeGreaterThan(0)
+    expect(xLabels.length).toBeLessThan(30)
+  })
+})

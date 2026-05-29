@@ -136,8 +136,15 @@
   flex-wrap: wrap;
   gap: 4px 16px;
   align-items: center;
+  margin: 0;
   padding: 4px 0;
+  list-style: none;
   color: var(--ag-foreground);
+}
+
+.ag-legend__li {
+  display: inline-flex;
+  align-items: center;
 }
 
 .ag-legend--center {
@@ -176,7 +183,9 @@
 }
 
 .ag-legend__item--interactive:hover {
-  background: color-mix(in srgb, var(--ag-foreground) 8%, transparent);
+  /* Neutral translucent hover that works on light & dark without color-mix
+     (kept for broad cross-browser support). */
+  background: rgba(128, 128, 128, 0.14);
 }
 
 .ag-legend__item--hidden {

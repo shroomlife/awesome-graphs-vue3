@@ -51,6 +51,7 @@ export default defineConfig({
           text: 'Customization',
           items: [
             { text: 'Theming', link: '/guide/theming' },
+            { text: 'Accessibility & Responsive', link: '/guide/accessibility' },
             { text: 'Headless & Composables', link: '/guide/headless' },
           ],
         },

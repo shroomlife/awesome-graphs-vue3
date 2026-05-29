@@ -100,4 +100,6 @@ export interface BaseCartesianProps {
   animate?: boolean
   /** Accessible label for the chart's `role="img"` SVG. */
   ariaLabel?: string
+  /** Render a visually-hidden data table for screen readers (default true). */
+  accessibleTable?: boolean
 }
