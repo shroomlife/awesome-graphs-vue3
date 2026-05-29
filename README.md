@@ -144,6 +144,23 @@ The docs deploy automatically on every push to `main` via
 [`.github/workflows/docs.yml`](./.github/workflows/docs.yml). One-time setup: in the repo
 **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**.
 
+### Publishing to npm
+
+Releases are automated by [`.github/workflows/release.yml`](./.github/workflows/release.yml):
+pushing a version tag builds, tests and publishes the package (with
+[npm provenance](https://docs.npmjs.com/generating-provenance-statements)).
+
+```bash
+# one-time: add an automation token as the NPM_TOKEN repo secret
+# (Settings → Secrets and variables → Actions)
+
+npm version patch        # or minor / major — bumps package.json & creates a tag
+git push --follow-tags   # pushes the commit + tag → the release workflow publishes
+```
+
+You can also publish locally with `npm publish` (the `prepublishOnly` hook builds first). The
+published tarball contains only `dist/`, the README and the license.
+
 ## License
 
 [MIT](./LICENSE) © shroomlife
