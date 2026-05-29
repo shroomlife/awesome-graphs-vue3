@@ -32,16 +32,22 @@ export interface EnterProgressOptions {
 export function useEnterProgress(options: EnterProgressOptions = {}): Ref<number> {
   const duration = options.duration ?? 700
   const ease = options.easing ?? easing.easeOutCubic
-  const progress = ref(0)
-  let raf = 0
-  let startTime = 0
 
   function prefersReducedMotion() {
     return (
-      typeof matchMedia !== 'undefined' &&
-      matchMedia('(prefers-reduced-motion: reduce)').matches
+      typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
     )
   }
+  function shouldAnimate() {
+    const enabled = options.enabled == null ? true : toValue(options.enabled)
+    return enabled && hasRaf && duration > 0 && !prefersReducedMotion()
+  }
+
+  // Initialise synchronously so non-animated charts render fully on the first
+  // (and SSR) render, with no flash and no extra tick.
+  const progress = ref(shouldAnimate() ? 0 : 1)
+  let raf = 0
+  let startTime = 0
 
   function step(now: number) {
     if (!startTime) startTime = now
@@ -52,11 +58,11 @@ export function useEnterProgress(options: EnterProgressOptions = {}): Ref<number
   }
 
   onMounted(() => {
-    const enabled = options.enabled == null ? true : toValue(options.enabled)
-    if (!enabled || !hasRaf || prefersReducedMotion() || duration <= 0) {
+    if (!shouldAnimate()) {
       progress.value = 1
       return
     }
+    progress.value = 0
     raf = requestAnimationFrame(step)
   })
 

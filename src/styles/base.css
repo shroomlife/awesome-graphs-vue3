@@ -1,0 +1,287 @@
+/**
+ * awesome-graphs-vue3 base styles.
+ *
+ * Every visual aspect is driven by CSS custom properties (`--ag-*`) so it can
+ * be overridden globally or per-chart from your own stylesheet. Components set
+ * these variables inline from the resolved theme; the values below are merely
+ * fallbacks. Import once: `import 'awesome-graphs-vue3/style.css'`.
+ */
+
+.ag-chart {
+  /* Theme tokens (overridable). Components set these inline from the theme. */
+  --ag-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  --ag-font-size: 12px;
+  --ag-background: transparent;
+  --ag-foreground: #1f2937;
+  --ag-muted: #6b7280;
+  --ag-grid: #e5e7eb;
+  --ag-axis: #cbd5e1;
+  --ag-tooltip-bg: #ffffff;
+  --ag-tooltip-color: #111827;
+  --ag-tooltip-border: #e5e7eb;
+  --ag-tooltip-radius: 10px;
+  --ag-tooltip-shadow: 0 6px 24px rgba(15, 23, 42, 0.12);
+
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  font-family: var(--ag-font-family);
+  font-size: var(--ag-font-size);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ag-chart *,
+.ag-chart *::before,
+.ag-chart *::after {
+  box-sizing: border-box;
+}
+
+.ag-chart__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Axes ------------------------------------------------------------------- */
+.ag-axis__domain,
+.ag-axis__tick-line {
+  stroke: var(--ag-axis);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.ag-axis__label {
+  fill: var(--ag-muted);
+  font-size: var(--ag-font-size);
+}
+
+.ag-axis__title {
+  fill: var(--ag-foreground);
+  font-size: calc(var(--ag-font-size) + 1px);
+  font-weight: 600;
+}
+
+/* Grid ------------------------------------------------------------------- */
+.ag-grid__line {
+  stroke: var(--ag-grid);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.ag-grid__line--zero {
+  stroke: var(--ag-axis);
+}
+
+/* Series ----------------------------------------------------------------- */
+.ag-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 0.2s ease;
+}
+
+.ag-area {
+  transition: opacity 0.2s ease;
+}
+
+.ag-point {
+  transition:
+    r 0.15s ease,
+    opacity 0.15s ease;
+  cursor: pointer;
+}
+
+.ag-bar {
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.ag-bar:hover,
+.ag-arc:hover {
+  opacity: 0.86;
+}
+
+.ag-arc {
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.ag-arc__label {
+  fill: #fff;
+  font-size: var(--ag-font-size);
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.ag-crosshair {
+  stroke: var(--ag-axis);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  pointer-events: none;
+}
+
+.ag-series--dim {
+  opacity: 0.18;
+}
+
+/* Legend ----------------------------------------------------------------- */
+.ag-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  align-items: center;
+  padding: 4px 0;
+  color: var(--ag-foreground);
+}
+
+.ag-legend--center {
+  justify-content: center;
+}
+.ag-legend--end {
+  justify-content: flex-end;
+}
+.ag-legend--start {
+  justify-content: flex-start;
+}
+
+.ag-legend--left,
+.ag-legend--right {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ag-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  margin: 0;
+  padding: 2px 4px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: default;
+  border-radius: 6px;
+  user-select: none;
+}
+
+.ag-legend__item--interactive {
+  cursor: pointer;
+}
+
+.ag-legend__item--interactive:hover {
+  background: color-mix(in srgb, var(--ag-foreground) 8%, transparent);
+}
+
+.ag-legend__item--hidden {
+  opacity: 0.45;
+}
+
+.ag-legend__item--hidden .ag-legend__label {
+  text-decoration: line-through;
+}
+
+.ag-legend__symbol {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.ag-legend__symbol--circle {
+  border-radius: 50%;
+}
+
+.ag-legend__symbol--line {
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* Tooltip ---------------------------------------------------------------- */
+.ag-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  min-width: 96px;
+  max-width: 280px;
+  padding: 8px 10px;
+  background: var(--ag-tooltip-bg);
+  color: var(--ag-tooltip-color);
+  border: 1px solid var(--ag-tooltip-border);
+  border-radius: var(--ag-tooltip-radius);
+  box-shadow: var(--ag-tooltip-shadow);
+  pointer-events: none;
+  font-size: var(--ag-font-size);
+  transition:
+    transform 0.08s ease-out,
+    opacity 0.12s ease-out;
+  will-change: transform;
+}
+
+.ag-tooltip__title {
+  margin-bottom: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ag-tooltip__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 1px 0;
+  white-space: nowrap;
+}
+
+.ag-tooltip__swatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.ag-tooltip__name {
+  color: var(--ag-muted);
+}
+
+.ag-tooltip__value {
+  margin-left: auto;
+  padding-left: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Accessibility ---------------------------------------------------------- */
+.ag-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ag-chart :focus-visible {
+  outline: 2px solid var(--ag-foreground);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ag-line,
+  .ag-area,
+  .ag-point,
+  .ag-bar,
+  .ag-arc,
+  .ag-tooltip {
+    transition: none;
+  }
+}
